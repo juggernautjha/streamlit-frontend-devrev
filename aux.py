@@ -35,7 +35,7 @@ def get_examples(query : str, examples : typing.List, retriever : typing.Any):
     docs = retriever.get_relevant_documents(query)
     return docs, [examples[d.metadata["index"]] for d in docs]
 
-def post_request(query : str, documentation : typing.List, examples : typing.List, open_api_key : str, model_name : str, parse_piro : bool, api_ret : typing.Any, ex_ret : typing.Any):
+def post_request(url: str, query : str, documentation : typing.List, examples : typing.List, open_api_key : str, model_name : str, parse_piro : bool, api_ret : typing.Any, ex_ret : typing.Any):
     """Posts a request to the server
 
     Args:
@@ -50,7 +50,7 @@ def post_request(query : str, documentation : typing.List, examples : typing.Lis
     Returns:
         JSON
     """
-    url = "http://localhost:8000/chat"
+    url = f"{url}/chat"
     open_api_key = open_api_key
     payload = json.dumps({
         "query": query,

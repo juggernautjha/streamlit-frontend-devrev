@@ -32,11 +32,14 @@ if 'Ex_Ret' not in st.session_state:
     st.session_state['Ex_Ret'] = None
 if 'API_Ret' not in st.session_state:
     st.session_state['API_Ret'] = None
-
+if 'URL' not in st.session_state:
+    st.session_state['URL'] = 'http://localhost:8000/chat'
 
 
 with st.expander("SETUP ⚙️", True):    
     with st.form('Data_Form'):
+        url = st.text_input('URL', value=st.session_state['URL'], help='URL of the server where the API is hosted')
+
         text = st.text_input('API Key', type='password', help='Need it for proprietary model/retriever', value="LOL")
         api_docs = st.file_uploader("Upload API Docs", type=['json'])
         if api_docs:
@@ -47,6 +50,7 @@ with st.expander("SETUP ⚙️", True):
 
         submitted = st.form_submit_button('Submit')
         if submitted:
+            st.session_state['URL'] = url
             st.session_state['api_key'] = text
             if not st.session_state['api_key'].startswith('sk-'):
                 st.warning(st.session_state['api_key'])
@@ -111,7 +115,7 @@ if prompt := st.chat_input("What is up?"):
     else:
         with st.spinner("Sending Request..."):
             response = aux.post_request(
-                prompt, api_docs, api_examples, st.session_state['api_key'], model_id, use_piro, st.session_state['API_Ret'], st.session_state['Ex_Ret']
+                st.session_state['URL'],prompt, api_docs, api_examples, st.session_state['api_key'], model_id, use_piro, st.session_state['API_Ret'], st.session_state['Ex_Ret']
             )
         
 
@@ -120,12 +124,13 @@ if prompt := st.chat_input("What is up?"):
             st.markdown(prompt)
         with st.chat_message("ai"):
             st.markdown(response['output']['content'])
+            st.session_state.messages.append({"role": "ai", "content": response['output']['content']})
     else:
         for i, j in response['output'][1]:
             with st.chat_message("human"):
                 st.markdown(i)
             with st.chat_message("ai"):
-                st.markdown(j)
+                st.session_state.messages.append({"role": "ai", "content": j})
 
 
 
