@@ -7,7 +7,6 @@ import json
 import openai
 import os
 import pandas as pd
-#! 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
 from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
@@ -24,13 +23,21 @@ st.title('Team 8️⃣0️⃣')
 
 
 if 'api_key' not in st.session_state:
-    st.session_state['key'] = ''
+    st.session_state['api_key'] = ''
+if 'api_retriever' not in st.session_state:
+    st.session_state['api_retriever'] = False
+if 'example_retriever' not in st.session_state:
+    st.session_state['example_retriever'] = False
+if 'Ex_Ret' not in st.session_state:
+    st.session_state['Ex_Ret'] = None
+if 'API_Ret' not in st.session_state:
+    st.session_state['API_Ret'] = None
 
 
 
 with st.expander("SETUP ⚙️", True):    
     with st.form('Data_Form'):
-        text = st.text_input('API Key', type='password', help='Need it for proprietary model/retriever', value="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")
+        text = st.text_input('API Key', type='password', help='Need it for proprietary model/retriever', value="LOL")
         api_docs = st.file_uploader("Upload API Docs", type=['json'])
         if api_docs:
             api_docs = json.load(api_docs)
