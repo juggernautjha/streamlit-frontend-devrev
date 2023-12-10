@@ -1,0 +1,8 @@
+llm:
+  gpt-3.5-turbo : openAI
+  llama2 : ollama
+
+embedding:
+  text-embedding-ada-002 : openAI
+  llama2 : ollama
+  all-MiniLM-L6-v2 : sent
