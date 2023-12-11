@@ -61,6 +61,7 @@ def post_request(url: str, query : str, documentation : typing.List, examples : 
         "model_type": "openAI" if model_name[:3] == "gpt" else "ollama",
         "openai_key": open_api_key
     })
+    print(model_name)
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0',
         'Accept': '/',
